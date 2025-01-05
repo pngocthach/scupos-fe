@@ -3,21 +3,26 @@ import { useState } from "react";
 import JSZip from "jszip";
 
 // load the data from the zipped json file
-const dataRaw = await fetch("src/assets/data_2023_with_author.zip");
-const zipBlob = await dataRaw.blob();
-const zip = new JSZip();
-const zipContent = await zip.loadAsync(zipBlob);
-const jsonFileName = Object.keys(zipContent.files).find((fileName) =>
-  fileName.endsWith(".json")
-);
+const data = await fetchAndParseJsonFromZip();
 
-if (!jsonFileName) {
-  throw new Error("No JSON file found in the zip.");
+async function fetchAndParseJsonFromZip() {
+  const dataRaw = await fetch("src/assets/data_2023_with_author.zip");
+  const zipBlob = await dataRaw.blob();
+  const zip = new JSZip();
+  const zipContent = await zip.loadAsync(zipBlob);
+  const jsonFileName = Object.keys(zipContent.files).find((fileName) =>
+    fileName.endsWith(".json")
+  );
+
+  if (!jsonFileName) {
+    throw new Error("No JSON file found in the zip.");
+  }
+
+  // Extract and parse the JSON file
+  const jsonFileContent = await zipContent.files[jsonFileName].async("string");
+  const data = JSON.parse(jsonFileContent);
+  return data;
 }
-
-// Extract and parse the JSON file
-const jsonFileContent = await zipContent.files[jsonFileName].async("string");
-const data = JSON.parse(jsonFileContent);
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
