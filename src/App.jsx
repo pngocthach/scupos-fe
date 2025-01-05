@@ -4,9 +4,10 @@ import JSZip from "jszip";
 
 // load the data from the zipped json file
 const data = await fetchAndParseJsonFromZip();
+console.log("Load zipped data", data);
 
 async function fetchAndParseJsonFromZip() {
-  const dataRaw = await fetch("src/assets/data_2023_with_author.zip");
+  const dataRaw = await fetch("/data_2023_with_author.zip");
   const zipBlob = await dataRaw.blob();
   const zip = new JSZip();
   const zipContent = await zip.loadAsync(zipBlob);
