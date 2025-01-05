@@ -6,7 +6,7 @@ import JSZip from "jszip";
 const data = await fetchAndParseJsonFromZip();
 
 async function fetchAndParseJsonFromZip() {
-  const dataRaw = await fetch("/data_2023_with_author.zip");
+  const dataRaw = await fetch("data_2023_with_author.zip");
   const zipBlob = await dataRaw.blob();
   const zip = new JSZip();
   const zipContent = await zip.loadAsync(zipBlob);
