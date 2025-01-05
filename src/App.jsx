@@ -4,6 +4,7 @@ import JSZip from "jszip";
 
 // load the data from the zipped json file
 const data = await fetchAndParseJsonFromZip();
+console.log(data[0]);
 
 async function fetchAndParseJsonFromZip() {
   const dataRaw = await fetch("data_2023_with_author.zip");
@@ -59,6 +60,7 @@ function App() {
           placeholder="Search by title"
           value={searchTerm}
           onChange={handleSearch}
+          style={{ marginTop: "10px" }}
         />
 
         {paginatedData.map((item, index) => {
@@ -70,8 +72,7 @@ function App() {
                 }}
               ></h2>
               <p>
-                {" "}
-                Author:{" "}
+                <strong>Author:</strong>{" "}
                 {item["author"].map((author, idx) => {
                   if (typeof author === "string") {
                     return author;
@@ -86,7 +87,35 @@ function App() {
                   );
                 })}
               </p>
-              <p>DOI: {item["prism:doi"]}</p>
+              <p>
+                <strong>Affiliation:</strong>{" "}
+                {item["affiliation"]
+                  .map((affil) => {
+                    return [
+                      Array.isArray(affil["affilname"])
+                        ? affil["affilname"].join(", ")
+                        : affil["affilname"],
+                      affil["affiliation-city"],
+                      affil["affiliation-country"],
+                    ]
+                      .filter(Boolean)
+                      .join(", ");
+                  })
+                  .join("; ")}
+              </p>
+              <p>
+                <strong>DOI:</strong> {item["prism:doi"]}
+              </p>
+              <p>
+                <strong>Journal:</strong> {item["prism:publicationName"]}
+              </p>
+              <p>
+                <strong>Publication Date:</strong>{" "}
+                {item["prism:coverDisplayDate"]} ({item["prism:coverDate"]})
+              </p>
+              <p>
+                <strong>Cited-by Count:</strong> {item["citedby-count"]}
+              </p>
             </div>
           );
         })}
