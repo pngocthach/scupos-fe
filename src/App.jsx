@@ -89,19 +89,20 @@ function App() {
               </p>
               <p>
                 <strong>Affiliation:</strong>{" "}
-                {item["affiliation"]
-                  .map((affil) => {
-                    return [
-                      Array.isArray(affil["affilname"])
-                        ? affil["affilname"].join(", ")
-                        : affil["affilname"],
-                      affil["affiliation-city"],
-                      affil["affiliation-country"],
-                    ]
-                      .filter(Boolean)
-                      .join(", ");
-                  })
-                  .join("; ")}
+                {Array.isArray(item["affiliation"]) &&
+                  item["affiliation"]
+                    .map((affil) => {
+                      return [
+                        Array.isArray(affil["affilname"])
+                          ? affil["affilname"].join(", ")
+                          : affil["affilname"],
+                        affil["affiliation-city"],
+                        affil["affiliation-country"],
+                      ]
+                        .filter(Boolean)
+                        .join(", ");
+                    })
+                    .join("; ")}
               </p>
               <p>
                 <strong>DOI:</strong> {item["prism:doi"]}
