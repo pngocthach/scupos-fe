@@ -1,13 +1,12 @@
-// import data from "../data_2023_with_author.json";
 import { useState } from "react";
 import JSZip from "jszip";
 
 // load the data from the zipped json file
-const data = await fetchAndParseJsonFromZip();
-console.log(data[0]);
+const data = await fetchAndParseJsonFromZip("data_2023_with_affiliation.zip");
+console.log(data);
 
-async function fetchAndParseJsonFromZip() {
-  const dataRaw = await fetch("data_2023_with_author.zip");
+async function fetchAndParseJsonFromZip(filePath) {
+  const dataRaw = await fetch(filePath);
   const zipBlob = await dataRaw.blob();
   const zip = new JSZip();
   const zipContent = await zip.loadAsync(zipBlob);
@@ -104,9 +103,11 @@ function App() {
                     })
                     .join("; ")}
               </p>
-              <p>
-                <strong>DOI:</strong> {item["prism:doi"]}
-              </p>
+              {item["prism:doi"] && (
+                <p>
+                  <strong>DOI:</strong> {item["prism:doi"]}
+                </p>
+              )}
               <p>
                 <strong>Journal:</strong> {item["prism:publicationName"]}
               </p>
