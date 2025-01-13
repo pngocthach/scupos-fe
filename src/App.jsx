@@ -71,6 +71,8 @@ function App() {
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
+    // go to top of the page
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleSearchFieldChange = (event) => {
