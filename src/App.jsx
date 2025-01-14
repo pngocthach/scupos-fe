@@ -9,14 +9,18 @@ async function fetchData(
 ) {
   const url = import.meta.env.VITE_MEILI_URL;
   const key = import.meta.env.VITE_MEILI_CLIENT_KEY;
+  const proxy = import.meta.env.VITE_PROXY_URL;
+  const proxyKey = import.meta.env.VITE_PROXY_KEY;
 
   console.log(">>> url", url);
 
-  const response = await fetch(`${url}/indexes/${index}/search`, {
+  const response = await fetch(`${proxy}${url}/indexes/${index}/search`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${key}`,
+      "x-cors-api-key": proxyKey,
+      "x-requested-with": "XMLHttpRequest",
     },
     body: JSON.stringify({
       q: query,
