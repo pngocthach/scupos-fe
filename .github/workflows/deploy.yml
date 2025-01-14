@@ -23,6 +23,8 @@ concurrency:
 env:
   VITE_MEILI_URL: ${{secrets.VITE_MEILI_URL}}
   VITE_MEILI_CLIENT_KEY: ${{secrets.VITE_MEILI_CLIENT_KEY}}
+  VITE_PROXY_URL: ${{secrets.VITE_PROXY_URL}}
+  VITE_PROXY_KEY: ${{secrets.VITE_PROXY_KEY}}
 
 jobs:
   # Single deploy job since we're just deploying
